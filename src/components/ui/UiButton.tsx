@@ -20,7 +20,7 @@ interface ButtonProps {
   isFullWidth?: boolean;
 
   // eslint-disable-next-line
-  onClick?: (_event?: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function UiButton({

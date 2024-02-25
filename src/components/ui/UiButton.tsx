@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React, { lazy, useTransition } from 'react';
 import { tv } from 'tailwind-variants';
 import { Size } from '../../types/Sizes.ts';
 
@@ -27,7 +27,7 @@ export default function UiButton({
   children,
   onClick,
   disabled = false,
-  loading = false,
+  loading = true,
   variant = 'primary',
   type = 'submit',
   textCasing = 'uppercase',
@@ -35,11 +35,21 @@ export default function UiButton({
   isFullWidth = false,
   ...props
 }: ButtonProps) {
+  const [isPending, startTransition] = useTransition();
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | undefined) => {
+    startTransition(() => {
+      if (onClick) {
+        onClick(event);
+      }
+    });
+  };
+
   return (
     <button
       className={Button({ variant, textCasing, disabled, loading, size, isFullWidth })}
-      onClick={onClick}
-      disabled={disabled || loading}
+      onClick={handleClick}
+      disabled={disabled || isPending}
       type={type}
       {...props}
     >
@@ -67,7 +77,7 @@ const Button = tv({
       danger: 'text-white bg-danger hover:bg-danger40',
     },
     size: {
-      s: 'p-[8px] min-w-[100px] text-[12px] leading-6',
+      s: 'p-[8px] min-w-[100px] min-h-[40px] text-[12px] leading-6',
       md: 'p-[12]  min-w-[100px] h-11 text-[12px] leading-10',
       large: 'p-[16]  min-w-[100px] py-3 h-12 text-[14px] leading-14',
     },

@@ -1,3 +1,5 @@
-export default function RegistrationPage() {
+const RegistrationPage = () => {
   return <div>RegistrationPage</div>;
-}
+};
+
+export default RegistrationPage;
